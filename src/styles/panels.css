@@ -1,0 +1,555 @@
+/* ============================================================
+   Panel Component Styles
+   ============================================================ */
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  max-height: 600px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+  animation: fade-in 0.3s ease forwards;
+}
+
+.panel:hover {
+  border-color: var(--border-strong);
+}
+
+/* Row span classes */
+.panel.span-2 {
+  grid-row: span 2;
+  max-height: none;
+}
+.panel.span-3 {
+  grid-row: span 3;
+  max-height: none;
+}
+
+/* ---- Panel Header ---- */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  min-height: 40px;
+}
+
+.panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Panel Count Badge ---- */
+.panel-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.panel-count.bump {
+  animation: bump 0.3s ease;
+}
+
+@keyframes bump {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* ---- Data Status Badge ---- */
+.panel-data-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.panel-data-badge.live {
+  color: var(--status-live);
+  background: rgba(59, 221, 142, 0.1);
+}
+
+.panel-data-badge.cached {
+  color: var(--status-cached);
+  background: rgba(255, 184, 59, 0.1);
+}
+
+.panel-data-badge.unavailable {
+  color: var(--status-error);
+  background: rgba(255, 59, 92, 0.1);
+}
+
+/* ---- New Items Badge ---- */
+.panel-new-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: #08090d;
+  background: var(--accent);
+  padding: 1px 6px;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+}
+
+.panel-new-badge.pulse {
+  animation: badge-pulse 1.5s infinite;
+}
+
+@keyframes badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(100, 120, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(100, 120, 255, 0);
+  }
+}
+
+/* ---- Panel Content ---- */
+.panel-content {
+  flex: 1 1 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  min-height: 0;
+}
+
+/* ---- Loading State ---- */
+.panel-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  padding: 32px;
+}
+
+.panel-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.panel-loading-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---- Error State ---- */
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 24px;
+  text-align: center;
+}
+
+/* ---- News Items ---- */
+.news-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.news-item:hover {
+  background: var(--surface-hover);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.news-threat-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.news-threat-dot.critical {
+  background: var(--threat-critical);
+  box-shadow: 0 0 6px var(--threat-critical);
+}
+.news-threat-dot.high {
+  background: var(--threat-high);
+}
+.news-threat-dot.medium {
+  background: var(--threat-medium);
+}
+.news-threat-dot.low {
+  background: var(--threat-low);
+}
+.news-threat-dot.info {
+  background: var(--threat-info);
+}
+
+.news-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.news-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding-left: 14px;
+}
+
+.news-source {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.news-time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.news-sources-count {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ---- Resize Handle ---- */
+.panel-resize-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.panel:hover .panel-resize-handle {
+  opacity: 1;
+}
+
+.panel-resize-handle::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 2px;
+  background: var(--text-faint);
+  border-radius: 1px;
+}
+
+/* ---- Panel position for resize handle ---- */
+.panel {
+  position: relative;
+}
+
+/* ---- Signal Detail Panel ---- */
+.signal-panel {
+  position: fixed;
+  z-index: 1000;
+  width: 380px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(5, 5, 5, 0.94);
+  border: 1px solid rgba(11, 235, 122, 0.3);
+  box-shadow:
+    0 0 32px rgba(11, 235, 122, 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(16px);
+  font-family: var(--font-mono);
+  animation: fade-in 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.signal-panel.hidden {
+  display: none;
+}
+
+/* Title bar */
+.signal-panel-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(11, 235, 122, 0.15);
+  cursor: move;
+  user-select: none;
+  flex-shrink: 0;
+  background: rgba(11, 235, 122, 0.04);
+}
+
+.signal-panel-title-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.signal-panel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  display: block;
+  animation: pulse-dot 2s infinite;
+}
+
+.signal-panel-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.signal-panel-title-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.signal-panel-btn {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(11, 235, 122, 0.2);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  line-height: 1;
+  font-family: var(--font-mono);
+}
+
+.signal-panel-btn:hover {
+  background: rgba(11, 235, 122, 0.1);
+  color: var(--accent);
+}
+
+.signal-panel-btn-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+/* Meta row: badge + mentions */
+.signal-panel-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 6px;
+}
+
+.signal-threat-badge {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 3px 8px;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+
+.signal-mentions {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* Location row */
+.signal-panel-location {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.signal-location-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+.signal-location-coords {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* Content sections */
+.signal-section {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.signal-section:last-child {
+  border-bottom: none;
+}
+
+.signal-section-header {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.signal-summary {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Events list */
+.signal-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signal-event-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  align-items: start;
+}
+
+.signal-event-time {
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  grid-row: 1;
+  grid-column: 1;
+  padding-top: 1px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.signal-event-time::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  background: transparent;
+}
+
+.signal-event-title {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.signal-event-title a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.signal-event-title a:hover {
+  color: var(--accent);
+}
+
+.signal-event-source {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  grid-row: 2;
+  grid-column: 2;
+}
+
+/* ---- Badge pulse animation update ---- */
+@keyframes badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(11, 235, 122, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(11, 235, 122, 0);
+  }
+}

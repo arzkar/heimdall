@@ -1,0 +1,22 @@
+{
+  "name": "heimdall",
+  "private": true,
+  "version": "0.1.0",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.21",
+    "fast-xml-parser": "^5.3.7",
+    "leaflet": "^1.9.4"
+  }
+}

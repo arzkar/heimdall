@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Primary Meta Tags -->
+    <title>Heimdall — Global Intelligence Dashboard</title>
+    <meta name="title" content="Heimdall — Global Intelligence Dashboard" />
+    <meta
+      name="description"
+      content="Real-time global intelligence dashboard with live news, geopolitical data, market tracking, and AI-powered insights."
+    />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Theme: apply stored preference before first paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("heimdall-theme");
+          if (t === "dark" || t === "light") {
+            document.documentElement.dataset.theme = t;
+          }
+        } catch (e) {}
+        document.documentElement.classList.add("no-transition");
+      })();
+    </script>
+
+    <!-- Critical CSS: skeleton visible before JS boots -->
+    <style>
+      .skeleton-shell {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background: #08090d;
+        font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+        overflow: hidden;
+      }
+      .skeleton-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 48px;
+        padding: 0 20px;
+        background: rgba(12, 13, 20, 0.95);
+        border-bottom: 1px solid rgba(100, 120, 255, 0.08);
+        flex-shrink: 0;
+      }
+      .skeleton-header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .skeleton-pill {
+        height: 24px;
+        border-radius: 6px;
+        background: rgba(100, 120, 255, 0.06);
+      }
+      .skeleton-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(100, 200, 255, 0.3);
+      }
+      .skeleton-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .skeleton-map {
+        height: 45vh;
+        min-height: 200px;
+        border-bottom: 1px solid rgba(100, 120, 255, 0.08);
+        background: linear-gradient(180deg, #060810 0%, #0a0e1a 100%);
+        flex-shrink: 0;
+      }
+      .skeleton-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 6px;
+        padding: 6px;
+        align-content: start;
+      }
+      .skeleton-panel {
+        height: 320px;
+        background: rgba(12, 13, 20, 0.8);
+        border: 1px solid rgba(100, 120, 255, 0.06);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+      }
+      .skeleton-panel-header {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid rgba(100, 120, 255, 0.04);
+      }
+      .skeleton-panel-body {
+        flex: 1;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .skeleton-line {
+        height: 14px;
+        border-radius: 6px;
+        background: linear-gradient(
+          90deg,
+          rgba(100, 120, 255, 0.03) 25%,
+          rgba(100, 120, 255, 0.07) 50%,
+          rgba(100, 120, 255, 0.03) 75%
+        );
+        background-size: 200% 100%;
+        animation: skel-shimmer 1.8s infinite;
+      }
+      .skeleton-line.w75 {
+        width: 75%;
+      }
+      .skeleton-line.w60 {
+        width: 60%;
+      }
+      .skeleton-line.w50 {
+        width: 50%;
+      }
+      .skeleton-line.w85 {
+        width: 85%;
+      }
+      @keyframes skel-shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Pre-render skeleton -->
+      <div class="skeleton-shell" aria-hidden="true">
+        <div class="skeleton-header">
+          <div class="skeleton-header-left">
+            <div class="skeleton-pill" style="width: 140px"></div>
+            <div class="skeleton-pill" style="width: 80px"></div>
+            <div class="skeleton-dot"></div>
+          </div>
+        </div>
+        <div class="skeleton-main">
+          <div class="skeleton-map"></div>
+          <div class="skeleton-grid">
+            <div class="skeleton-panel">
+              <div class="skeleton-panel-header">
+                <div
+                  class="skeleton-pill"
+                  style="width: 90px; height: 14px"
+                ></div>
+              </div>
+              <div class="skeleton-panel-body">
+                <div class="skeleton-line w85"></div>
+                <div class="skeleton-line w75"></div>
+                <div class="skeleton-line w60"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line w50"></div>
+              </div>
+            </div>
+            <div class="skeleton-panel">
+              <div class="skeleton-panel-header">
+                <div
+                  class="skeleton-pill"
+                  style="width: 70px; height: 14px"
+                ></div>
+              </div>
+              <div class="skeleton-panel-body">
+                <div class="skeleton-line w75"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line w60"></div>
+                <div class="skeleton-line w85"></div>
+                <div class="skeleton-line w50"></div>
+              </div>
+            </div>
+            <div class="skeleton-panel">
+              <div class="skeleton-panel-header">
+                <div
+                  class="skeleton-pill"
+                  style="width: 100px; height: 14px"
+                ></div>
+              </div>
+              <div class="skeleton-panel-body">
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line w60"></div>
+                <div class="skeleton-line w85"></div>
+                <div class="skeleton-line w50"></div>
+                <div class="skeleton-line w75"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
