@@ -47,7 +47,11 @@ const STRATEGIC_LOCATIONS: [string, number, number][] = [
 ];
 
 const COUNTRIES: [string, number, number][] = [
+  ["U.S.", -98.5795, 39.8283],
+  ["US", -98.5795, 39.8283],
   ["United States", -98.5795, 39.8283],
+  ["U.K.", -3.435973, 55.378051],
+  ["UK", -3.435973, 55.378051],
   ["United Kingdom", -3.435973, 55.378051],
   ["North Korea", 127.5101, 40.3399],
   ["South Korea", 127.7669, 35.9078],
@@ -171,7 +175,16 @@ const COUNTRIES: [string, number, number][] = [
 ];
 
 const CITIES: [string, number, number][] = [
+  // Major US States / Regions
+  ["California", -119.4179, 36.7783],
+  ["Texas", -99.9018, 31.9686],
+  ["Florida", -81.5158, 27.9944],
+  ["New York State", -74.006, 40.7128],
+  ["Washington State", -120.7401, 47.7511],
+
   ["Washington DC", -77.0369, 38.9072],
+  ["Washington, D.C.", -77.0369, 38.9072],
+  ["D.C.", -77.0369, 38.9072],
   ["Washington", -77.0369, 38.9072],
   ["New York", -74.006, 40.7128],
   ["Los Angeles", -118.2437, 34.0522],
@@ -325,19 +338,20 @@ const CITIES: [string, number, number][] = [
   ["G20", -58.3816, -34.6037],
 ];
 
-// Process dictionaries into lookup arrays with pre-compiled RegExp
-// Acronyms (all caps, <= 4 chars) are strictly case-sensitive to avoid matching pronouns like "us"
 function createLookup(dict: [string, number, number][]) {
   return dict
     .sort((a, b) => b[0].length - a[0].length)
     .map(([name, lng, lat]) => {
+      // Escape special regex characters in the place name (like '.' in U.S.)
+      const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
       const isAcronym = name === name.toUpperCase();
       const flags = isAcronym ? "g" : "gi";
       return {
         name,
         lng,
         lat,
-        regex: new RegExp(`\\b${name}\\b`, flags),
+        regex: new RegExp(`\\b${escapedName}\\b`, flags),
       };
     });
 }
@@ -434,15 +448,7 @@ export function extractLocations(text: string): Location[] {
     return foundCountries;
   }
 
-  // 4. Absolute fallback: Randomize in ocean/neutral areas if unmentioned
-  const hash = text.length % 5;
-  const fallbacks: Location[] = [
-    { name: "Unspecified Region", lng: 35.0, lat: 34.0 },
-    { name: "Global Alert", lng: 18.0, lat: 35.0 },
-    { name: "Middle East", lng: 45.0, lat: 25.0 },
-    { name: "International Waters", lng: 60.0, lat: 15.0 },
-    { name: "Unknown Coordination", lng: 25.0, lat: 38.0 },
-  ];
-
-  return [fallbacks[hash]];
+  // If no locations are found, return an empty array instead of a random fallback
+  // This prevents domestic news from being randomly plotted in the Middle East or Oceans.
+  return [];
 }
