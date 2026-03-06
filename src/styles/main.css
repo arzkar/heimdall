@@ -346,7 +346,7 @@ body {
     rgba(11, 235, 122, 0.2) 95%,
     var(--accent) 100%
   );
-  animation: radar-scan-down 6s linear infinite;
+  animation: radar-scan-down 12s linear infinite;
   z-index: 2;
   mix-blend-mode: screen;
   pointer-events: none;
