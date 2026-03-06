@@ -306,10 +306,9 @@ body {
 
 /* Green Tint on Map Tiles */
 .leaflet-tile-pane {
-  /* Carto Dark is mostly black/dark grey. Need to brighten then tint */
-  filter: contrast(0.8) brightness(1.5) sepia(1) hue-rotate(80deg) saturate(5)
-    brightness(0.6) contrast(1.5);
-  opacity: 0.8;
+  /* Very subtle green tint to keep map legible but themed */
+  filter: sepia(0.3) hue-rotate(80deg) saturate(1.5);
+  opacity: 0.9;
 }
 
 /* ---- Radar Scan & Overlays ---- */
