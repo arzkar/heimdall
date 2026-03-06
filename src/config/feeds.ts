@@ -163,7 +163,9 @@ export const FEEDS: Feed[] = [
   // ── Finance ──
   {
     name: "CNBC",
-    url: rss("https://www.cnbc.com/id/100003114/device/rss/rss.html"),
+    url: rss(
+      "https://news.google.com/rss/search?q=site:cnbc.com+markets+when:1d&hl=en-US&gl=US&ceid=US:en",
+    ),
     tier: 2,
     type: "market",
     category: "finance",
@@ -179,8 +181,28 @@ export const FEEDS: Feed[] = [
   },
   {
     name: "Financial Times",
-    url: rss("https://www.ft.com/rss/home"),
+    url: rss(
+      "https://news.google.com/rss/search?q=site:ft.com+markets+when:1d&hl=en-US&gl=US&ceid=US:en",
+    ),
     tier: 2,
+    type: "market",
+    category: "finance",
+  },
+  {
+    name: "WSJ Markets",
+    url: rss(
+      "https://news.google.com/rss/search?q=site:wsj.com+markets+when:1d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    tier: 1,
+    type: "market",
+    category: "finance",
+  },
+  {
+    name: "Bloomberg",
+    url: rss(
+      "https://news.google.com/rss/search?q=site:bloomberg.com+markets+when:1d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    tier: 1,
     type: "market",
     category: "finance",
   },
@@ -234,7 +256,7 @@ export const FEEDS: Feed[] = [
   // ── AI ──
   {
     name: "VentureBeat AI",
-    url: rss("https://venturebeat.com/category/ai/feed/"),
+    url: rss("https://venturebeat.com/category/ai/feed"),
     tier: 4,
     type: "tech",
     category: "ai",

@@ -5,36 +5,6 @@
 import type { PanelOptions } from "@/types";
 import { h, replaceChildren } from "@/utils/dom";
 
-const PANEL_SPANS_KEY = "heimdall-panel-spans";
-
-function loadPanelSpans(): Record<string, number> {
-  try {
-    const stored = localStorage.getItem(PANEL_SPANS_KEY);
-    return stored ? JSON.parse(stored) : {};
-  } catch {
-    return {};
-  }
-}
-
-function savePanelSpan(panelId: string, span: number): void {
-  const spans = loadPanelSpans();
-  spans[panelId] = span;
-  localStorage.setItem(PANEL_SPANS_KEY, JSON.stringify(spans));
-}
-
-function getRowSpan(el: HTMLElement): number {
-  if (el.classList.contains("span-3")) return 3;
-  if (el.classList.contains("span-2")) return 2;
-  return 1;
-}
-
-function setSpanClass(el: HTMLElement, span: number): void {
-  el.classList.remove("span-1", "span-2", "span-3");
-  if (span > 1) el.classList.add(`span-${span}`);
-}
-
-const RESIZE_STEP = 80;
-
 export class Panel {
   protected element: HTMLElement;
   protected content: HTMLElement;
@@ -42,11 +12,6 @@ export class Panel {
   protected countEl: HTMLElement | null = null;
   protected statusBadgeEl: HTMLElement | null = null;
   protected panelId: string;
-
-  private resizeHandle: HTMLElement;
-  private isResizing = false;
-  private startY = 0;
-  private startSpan = 1;
 
   constructor(options: PanelOptions) {
     this.panelId = options.id;
@@ -65,16 +30,30 @@ export class Panel {
     );
     this.header.appendChild(headerLeft);
 
+    // Header right controls
+    const headerRight = h("div", { className: "panel-header-right" });
+
     // Status badge
     this.statusBadgeEl = h("span", { className: "panel-data-badge" });
     this.statusBadgeEl.style.display = "none";
-    this.header.appendChild(this.statusBadgeEl);
+    headerRight.appendChild(this.statusBadgeEl);
 
     // Count badge
     if (options.showCount) {
       this.countEl = h("span", { className: "panel-count" }, "0");
-      this.header.appendChild(this.countEl);
+      headerRight.appendChild(this.countEl);
     }
+
+    // Close button
+    const closeBtn = h(
+      "button",
+      { className: "panel-btn-close", title: "Close panel" },
+      "✕",
+    );
+    closeBtn.onclick = () => this.hide();
+    headerRight.appendChild(closeBtn);
+
+    this.header.appendChild(headerRight);
 
     // Content area
     this.content = h("div", { className: "panel-content" });
@@ -83,61 +62,68 @@ export class Panel {
     this.element.appendChild(this.header);
     this.element.appendChild(this.content);
 
-    // Resize handle
-    this.resizeHandle = h("div", { className: "panel-resize-handle" });
-    this.element.appendChild(this.resizeHandle);
-    this.setupResize();
-
-    // Restore saved span
-    const savedSpans = loadPanelSpans();
-    const saved = savedSpans[this.panelId];
-    if (saved && saved > 1) setSpanClass(this.element, saved);
+    // Make draggable
+    this.setupDrag();
 
     this.showLoading();
   }
 
-  private setupResize(): void {
+  private setupDrag(): void {
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
     const onMouseMove = (e: MouseEvent) => {
-      if (!this.isResizing) return;
-      const delta = e.clientY - this.startY;
-      const spanDelta =
-        delta > 0
-          ? Math.floor(delta / RESIZE_STEP)
-          : Math.ceil(delta / RESIZE_STEP);
-      const newSpan = Math.max(1, Math.min(3, this.startSpan + spanDelta));
-      setSpanClass(this.element, newSpan);
+      if (!isDragging) return;
+      this.element.style.left = `${e.clientX - offsetX}px`;
+      this.element.style.top = `${e.clientY - offsetY}px`;
     };
 
     const onMouseUp = () => {
-      if (!this.isResizing) return;
-      this.isResizing = false;
+      isDragging = false;
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
-      document.body.classList.remove("panel-resize-active");
-      savePanelSpan(this.panelId, getRowSpan(this.element));
     };
 
-    this.resizeHandle.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      this.isResizing = true;
-      this.startY = e.clientY;
-      this.startSpan = getRowSpan(this.element);
-      document.body.classList.add("panel-resize-active");
+    this.header.addEventListener("mousedown", (e) => {
+      if ((e.target as HTMLElement).closest("button")) return; // Don't drag if clicking buttons
+      isDragging = true;
+      const rect = this.element.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+
+      // Bring to front
+      this.element.style.zIndex = "1001";
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
-    });
-
-    // Double-click to reset
-    this.resizeHandle.addEventListener("dblclick", () => {
-      setSpanClass(this.element, 1);
-      const spans = loadPanelSpans();
-      delete spans[this.panelId];
-      localStorage.setItem(PANEL_SPANS_KEY, JSON.stringify(spans));
+      e.preventDefault();
     });
   }
 
   public getElement(): HTMLElement {
     return this.element;
+  }
+
+  public show(): void {
+    this.element.classList.remove("hidden");
+    this.element.style.zIndex = "1001"; // Bring to front when shown
+  }
+
+  public hide(): void {
+    this.element.classList.add("hidden");
+    this.element.style.zIndex = "500"; // Reset z-index
+  }
+
+  public toggle(): void {
+    if (this.element.classList.contains("hidden")) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  }
+
+  public isVisible(): boolean {
+    return !this.element.classList.contains("hidden");
   }
 
   public showLoading(message = "Loading…"): void {

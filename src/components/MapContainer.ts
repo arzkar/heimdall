@@ -258,6 +258,7 @@ export class MapContainer {
           const props = feature.properties;
           const popupHtml = `
             <div style="font-family:var(--font-mono,monospace);font-size:11px;padding:4px">
+              <div style="font-size:9px;font-weight:600;color:#ffb83b;margin-bottom:4px;letter-spacing:0.5px">SEISMIC</div>
               <div style="font-weight:700;margin-bottom:4px">M${Number(props.mag).toFixed(1)}</div>
               <div style="color:#b0b4cc">${props.place || "Unknown"}</div>
               <div style="color:#707498;font-size:9px;margin-top:2px">${new Date(props.time).toLocaleString()}</div>

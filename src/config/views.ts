@@ -23,13 +23,13 @@ export const VIEWS: Record<ViewId, ViewConfig> = {
     label: "Finance",
     icon: "📈",
     feedCategories: ["finance"],
-    panelIds: ["market", "liveNews"],
+    panelIds: ["liveNews", "earthquake", "market"],
   },
   tech: {
     label: "Tech",
     icon: "💻",
     feedCategories: ["tech", "ai", "startups"],
-    panelIds: ["liveNews"],
+    panelIds: ["liveNews", "earthquake", "market"],
   },
 };
 

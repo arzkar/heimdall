@@ -19,17 +19,17 @@ import { extractLocations } from "@/services/geocoder";
 import type { ViewId, GeoNewsItem, SignalCluster } from "@/types";
 import type { Panel } from "@/components/Panel";
 
-const GEO_VIEW_IDS: ViewId[] = ["geopolitics"];
+const GEO_VIEW_IDS: ViewId[] = ["geopolitics", "finance", "tech"];
 
 class App {
-  private panelsGrid!: HTMLElement;
+  private sidebarToolbar!: HTMLElement;
+  private panelsDock!: HTMLElement;
   private mapSection!: HTMLElement;
   private activePanels: Panel[] = [];
   private activeViewBtns: Map<string, HTMLElement> = new Map();
   private mapContainer!: MapContainer;
   private signalDetailPanel!: SignalDetailPanel;
   private ticker!: LiveTicker;
-  private isFullscreen = false;
   private feedPollTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
@@ -55,25 +55,18 @@ class App {
     // Map section (with sidebar overlay)
     this.mapSection = h("div", { className: "map-section" });
     const mapContainer = h("div", { className: "map-container" });
-    const resizeHandle = h("div", { className: "map-resize-handle" });
 
-    // Fullscreen toggle button
-    const fsBtn = h(
-      "button",
-      {
-        className: "map-fullscreen-btn",
-        title: "Toggle fullscreen map",
-        onClick: () => this.toggleFullscreen(fsBtn),
-      },
-      "THE MAP ⊞",
-    );
-
-    this.mapSection.append(mapContainer, resizeHandle, fsBtn);
+    this.mapSection.append(mapContainer);
     main.appendChild(this.mapSection);
 
-    // Panels grid (below map)
-    this.panelsGrid = h("div", { className: "panels-grid" });
-    main.appendChild(this.panelsGrid);
+    // Toolbar (left floating navigation)
+    this.sidebarToolbar = h("div", { className: "sidebar-toolbar" });
+    main.appendChild(this.sidebarToolbar);
+
+    // Panels dock (horizontal bar at bottom, above ticker)
+    this.panelsDock = h("div", { className: "panels-dock" });
+    this.panelsDock.classList.add("hidden");
+    main.appendChild(this.panelsDock);
 
     app.appendChild(main);
 
@@ -90,14 +83,7 @@ class App {
     this.ticker = new LiveTicker(app);
   }
 
-  private toggleFullscreen(btn: HTMLButtonElement): void {
-    this.isFullscreen = !this.isFullscreen;
-    this.mapSection.classList.toggle("map-fullscreen", this.isFullscreen);
-    this.panelsGrid.classList.toggle("hidden", this.isFullscreen);
-    btn.textContent = this.isFullscreen ? "SPLIT ⊟" : "THE MAP ⊞";
-    // Force map to recompute dimensions
-    setTimeout(() => this.mapContainer.resize(), 320);
-  }
+  // Fullscreen handled entirely by CSS now without toggle.
 
   private createHeader(): HTMLElement {
     const header = h("div", { className: "header" });
@@ -172,21 +158,48 @@ class App {
     // Destroy existing panels
     for (const panel of this.activePanels) panel.destroy();
     this.activePanels = [];
-    replaceChildren(this.panelsGrid);
+    replaceChildren(this.sidebarToolbar);
 
     // Stop old poll
     if (this.feedPollTimer) clearInterval(this.feedPollTimer);
 
-    // Show/hide map for geo-focused views
+    // Geo map is always shown now, taking full possible height by default
     const hasSignalMap = GEO_VIEW_IDS.includes(viewId);
     this.mapSection.classList.toggle("hidden", !hasSignalMap);
 
-    // Create panels
+    // Create panels & their toolbar icons
     for (const panelId of view.panelIds) {
       const panel = this.createPanel(panelId, view.feedCategories);
       if (panel) {
         this.activePanels.push(panel);
-        this.panelsGrid.appendChild(panel.getElement());
+        panel.hide(); // Hidden by default, toggled via toolbar
+        this.panelsDock.appendChild(panel.getElement());
+
+        // Toolbar Button
+        const iconInfo = this.getIconForPanel(panelId);
+        const iconBtn = h(
+          "div",
+          {
+            className: "sidebar-icon",
+            dataset: { tooltip: iconInfo.tooltip },
+          },
+          iconInfo.icon,
+        );
+
+        iconBtn.onclick = () => {
+          if (panel.isVisible()) {
+            panel.hide();
+            iconBtn.classList.remove("active");
+          } else {
+            panel.show();
+            iconBtn.classList.add("active");
+          }
+          // Show/hide the dock based on whether any panel is visible
+          const anyVisible = this.activePanels.some((p) => p.isVisible());
+          this.panelsDock.classList.toggle("hidden", !anyVisible);
+        };
+
+        this.sidebarToolbar.appendChild(iconBtn);
       }
     }
 
@@ -249,6 +262,19 @@ class App {
         return new MarketPanel();
       default:
         return null;
+    }
+  }
+
+  private getIconForPanel(panelId: string): { icon: string; tooltip: string } {
+    switch (panelId) {
+      case "liveNews":
+        return { icon: "📺", tooltip: "Live Intelligence" };
+      case "earthquake":
+        return { icon: "⚠️", tooltip: "Seismic Activity" };
+      case "market":
+        return { icon: "📈", tooltip: "Markets & Indices" };
+      default:
+        return { icon: "📄", tooltip: "Panel" };
     }
   }
 }

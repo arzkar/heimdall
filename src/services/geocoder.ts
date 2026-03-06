@@ -44,6 +44,10 @@ const STRATEGIC_LOCATIONS: [string, number, number][] = [
   ["US Consulate in Jerusalem", 35.223, 31.776],
   ["US Embassy in Beirut", 35.597, 33.931],
   ["US Embassy in Kabul", 69.184, 34.532],
+
+  // Tech / Finance Macro-Hubs
+  ["Silicon Valley", -122.0322, 37.3688],
+  ["Wall Street", -74.009, 40.7075],
 ];
 
 const COUNTRIES: [string, number, number][] = [
@@ -188,6 +192,10 @@ const CITIES: [string, number, number][] = [
   ["Washington", -77.0369, 38.9072],
   ["New York", -74.006, 40.7128],
   ["Los Angeles", -118.2437, 34.0522],
+  ["San Francisco", -122.4194, 37.7749],
+  ["Seattle", -122.3321, 47.6062],
+  ["Boston", -71.0589, 42.3601],
+  ["Austin", -97.7431, 30.2672],
   ["Chicago", -87.6298, 41.8781],
   ["London", -0.1276, 51.5074],
   ["Paris", 2.3522, 48.8566],

@@ -158,7 +158,7 @@ export class SignalDetailPanel {
     // Position near centre-left, but honour existing drag position
     const existing = this.el.style.left;
     if (!existing || existing === "") {
-      this.el.style.left = "60px";
+      this.el.style.left = "380px"; // Offset to right of main panels
       this.el.style.top = "80px";
     }
 

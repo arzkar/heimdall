@@ -69,69 +69,29 @@
       .skeleton-main {
         flex: 1;
         display: flex;
-        flex-direction: column;
+        flex-direction: row; /* Changed to row for sidebar */
         overflow: hidden;
       }
-      .skeleton-map {
-        height: 45vh;
-        min-height: 200px;
-        border-bottom: 1px solid rgba(100, 120, 255, 0.08);
-        background: linear-gradient(180deg, #060810 0%, #0a0e1a 100%);
+      .skeleton-sidebar {
+        width: 60px;
+        background: rgba(12, 13, 20, 0.95);
+        border-right: 1px solid rgba(100, 120, 255, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        gap: 16px;
         flex-shrink: 0;
       }
-      .skeleton-grid {
-        flex: 1;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-        gap: 6px;
-        padding: 6px;
-        align-content: start;
-      }
-      .skeleton-panel {
-        height: 320px;
-        background: rgba(12, 13, 20, 0.8);
-        border: 1px solid rgba(100, 120, 255, 0.06);
+      .skeleton-icon {
+        width: 32px;
+        height: 32px;
         border-radius: 8px;
-        display: flex;
-        flex-direction: column;
+        background: rgba(100, 120, 255, 0.06);
       }
-      .skeleton-panel-header {
-        height: 40px;
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-        border-bottom: 1px solid rgba(100, 120, 255, 0.04);
-      }
-      .skeleton-panel-body {
-        flex: 1;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .skeleton-line {
-        height: 14px;
-        border-radius: 6px;
-        background: linear-gradient(
-          90deg,
-          rgba(100, 120, 255, 0.03) 25%,
-          rgba(100, 120, 255, 0.07) 50%,
-          rgba(100, 120, 255, 0.03) 75%
-        );
-        background-size: 200% 100%;
-        animation: skel-shimmer 1.8s infinite;
-      }
-      .skeleton-line.w75 {
-        width: 75%;
-      }
-      .skeleton-line.w60 {
-        width: 60%;
-      }
-      .skeleton-line.w50 {
-        width: 50%;
-      }
-      .skeleton-line.w85 {
-        width: 85%;
+      .skeleton-map {
+        flex: 1; /* Maps takes full remaining height/width */
+        background: linear-gradient(180deg, #060810 0%, #0a0e1a 100%);
       }
       @keyframes skel-shimmer {
         0% {
@@ -155,54 +115,12 @@
           </div>
         </div>
         <div class="skeleton-main">
-          <div class="skeleton-map"></div>
-          <div class="skeleton-grid">
-            <div class="skeleton-panel">
-              <div class="skeleton-panel-header">
-                <div
-                  class="skeleton-pill"
-                  style="width: 90px; height: 14px"
-                ></div>
-              </div>
-              <div class="skeleton-panel-body">
-                <div class="skeleton-line w85"></div>
-                <div class="skeleton-line w75"></div>
-                <div class="skeleton-line w60"></div>
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line w50"></div>
-              </div>
-            </div>
-            <div class="skeleton-panel">
-              <div class="skeleton-panel-header">
-                <div
-                  class="skeleton-pill"
-                  style="width: 70px; height: 14px"
-                ></div>
-              </div>
-              <div class="skeleton-panel-body">
-                <div class="skeleton-line w75"></div>
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line w60"></div>
-                <div class="skeleton-line w85"></div>
-                <div class="skeleton-line w50"></div>
-              </div>
-            </div>
-            <div class="skeleton-panel">
-              <div class="skeleton-panel-header">
-                <div
-                  class="skeleton-pill"
-                  style="width: 100px; height: 14px"
-                ></div>
-              </div>
-              <div class="skeleton-panel-body">
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line w60"></div>
-                <div class="skeleton-line w85"></div>
-                <div class="skeleton-line w50"></div>
-                <div class="skeleton-line w75"></div>
-              </div>
-            </div>
+          <div class="skeleton-sidebar">
+            <div class="skeleton-icon"></div>
+            <div class="skeleton-icon"></div>
+            <div class="skeleton-icon"></div>
           </div>
+          <div class="skeleton-map"></div>
         </div>
       </div>
     </div>
