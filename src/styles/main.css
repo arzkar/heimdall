@@ -304,6 +304,85 @@ body {
   font-family: var(--font-mono) !important;
 }
 
+/* Green Tint on Map Tiles */
+.leaflet-tile-pane {
+  filter: sepia(1) hue-rotate(85deg) saturate(3) brightness(0.4) contrast(1.2);
+}
+
+/* ---- Radar Scan & Overlays ---- */
+.map-overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10; /* Keep it below leaflet UI (which starts around 400) but above the base map */
+  overflow: hidden;
+}
+
+/* Grid */
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(11, 235, 122, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 235, 122, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  z-index: 1;
+}
+
+/* Radar Sweep */
+.map-radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200vw;
+  height: 200vw;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(11, 235, 122, 0.02) 340deg,
+    rgba(11, 235, 122, 0.15) 360deg
+  );
+  animation: radar-spin 8s linear infinite;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+@keyframes radar-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Scanlines */
+.map-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  opacity: 0.8;
+}
+
+/* Vignette */
+.map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: radial-gradient(circle, transparent 40%, rgba(5, 5, 5, 0.5) 100%);
+}
+
 .leaflet-control-zoom a {
   background: rgba(5, 5, 5, 0.88) !important;
   color: var(--accent) !important;
@@ -703,9 +782,9 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 30px;
-  background: rgba(5, 5, 5, 0.96);
-  border-top: 1px solid var(--border);
+  height: 24px;
+  background: rgba(0, 0, 0, 0.85); /* Slightly darker/more transparent */
+  border-top: 1px solid var(--border-strong);
   display: flex;
   align-items: center;
   z-index: 500;
@@ -717,15 +796,14 @@ body {
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 0 12px;
+  padding: 0 10px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.5px;
   color: var(--threat-critical);
-  border-right: 1px solid var(--border);
-  background: rgba(239, 68, 68, 0.06);
   height: 100%;
 }
 
@@ -745,13 +823,28 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 16px,
+    black calc(100% - 16px),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 16px,
+    black calc(100% - 16px),
+    transparent
+  );
 }
 
 .ticker-track {
   display: flex;
   align-items: center;
+  width: max-content;
   white-space: nowrap;
-  animation: ticker-scroll 240s linear infinite;
+  animation: ticker-scroll 120s linear infinite;
   will-change: transform;
 }
 
@@ -766,21 +859,24 @@ body {
 
 .ticker-item {
   font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-secondary);
-  padding: 0 16px;
-  letter-spacing: 0.3px;
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 0 12px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .ticker-src {
-  color: var(--accent-dim);
-  margin-right: 6px;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .ticker-sep {
   color: var(--text-faint);
-  font-size: 8px;
+  font-size: 10px;
 }
 
 /* ---- Map signal panel ---- */

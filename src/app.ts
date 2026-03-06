@@ -56,7 +56,17 @@ class App {
     this.mapSection = h("div", { className: "map-section" });
     const mapContainer = h("div", { className: "map-container" });
 
-    this.mapSection.append(mapContainer);
+    // Radar overlays
+    const overlays = h(
+      "div",
+      { className: "map-overlays" },
+      h("div", { className: "map-grid" }),
+      h("div", { className: "map-radar-sweep" }),
+      h("div", { className: "map-scanlines" }),
+      h("div", { className: "map-vignette" }),
+    );
+
+    this.mapSection.append(mapContainer, overlays);
     main.appendChild(this.mapSection);
 
     // Toolbar (left floating navigation)
