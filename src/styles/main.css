@@ -306,7 +306,10 @@ body {
 
 /* Green Tint on Map Tiles */
 .leaflet-tile-pane {
-  filter: sepia(1) hue-rotate(85deg) saturate(3) brightness(0.4) contrast(1.2);
+  /* Carto Dark is mostly black/dark grey. Need to brighten then tint */
+  filter: contrast(0.8) brightness(1.5) sepia(1) hue-rotate(80deg) saturate(5)
+    brightness(0.6) contrast(1.5);
+  opacity: 0.8;
 }
 
 /* ---- Radar Scan & Overlays ---- */
@@ -314,7 +317,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 10; /* Keep it below leaflet UI (which starts around 400) but above the base map */
+  z-index: 400; /* above map tiles, below leaflet UI */
   overflow: hidden;
 }
 
@@ -323,8 +326,8 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(11, 235, 122, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11, 235, 122, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(11, 235, 122, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 235, 122, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
   background-position: center center;
   z-index: 1;
@@ -343,8 +346,8 @@ body {
     from 0deg,
     transparent 0deg,
     transparent 280deg,
-    rgba(11, 235, 122, 0.02) 340deg,
-    rgba(11, 235, 122, 0.15) 360deg
+    rgba(11, 235, 122, 0.02) 350deg,
+    rgba(11, 235, 122, 0.25) 360deg
   );
   animation: radar-spin 8s linear infinite;
   z-index: 2;
