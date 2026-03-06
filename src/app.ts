@@ -13,6 +13,7 @@ import { EarthquakePanel } from "@/components/panels/EarthquakePanel";
 import { MarketPanel } from "@/components/panels/MarketPanel";
 import { SignalDetailPanel } from "@/components/SignalDetailPanel";
 import { LiveTicker } from "@/components/LiveTicker";
+import { PizzaIndexPopup } from "@/components/PizzaIndexPopup";
 import { fetchAllFeeds } from "@/services/rss";
 import { classify } from "@/services/classifier";
 import { extractLocations } from "@/services/geocoder";
@@ -30,6 +31,7 @@ class App {
   private mapContainer!: MapContainer;
   private signalDetailPanel!: SignalDetailPanel;
   private ticker!: LiveTicker;
+  private pizzaIndex!: PizzaIndexPopup;
   private feedPollTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
@@ -135,6 +137,10 @@ class App {
         h("span", null, "LIVE"),
       ),
     );
+
+    // Pizza Index button
+    this.pizzaIndex = new PizzaIndexPopup();
+    left.appendChild(this.pizzaIndex.getHeaderButton());
 
     header.appendChild(left);
 

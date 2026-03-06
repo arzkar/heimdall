@@ -99,6 +99,39 @@ function devProxyPlugin(): Plugin {
           res.end(JSON.stringify({ error: String(err) }));
         }
       });
+
+      // PizzINT proxy for Pentagon Pizza Index
+      server.middlewares.use("/api/pizzint", async (_req, res) => {
+        try {
+          const upstream = await fetch(
+            `https://www.pizzint.watch/api/dashboard-data?_t=${Date.now()}`,
+            {
+              headers: { "User-Agent": "Heimdall/1.0" },
+              signal: AbortSignal.timeout(10_000),
+            },
+          );
+
+          if (!upstream.ok) {
+            res.statusCode = upstream.status;
+            res.setHeader("Content-Type", "application/json");
+            res.end(
+              JSON.stringify({ error: `PizzINT returned ${upstream.status}` }),
+            );
+            return;
+          }
+
+          const body = await upstream.text();
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.setHeader("Access-Control-Allow-Origin", "*");
+          res.setHeader("Cache-Control", "public, max-age=120");
+          res.end(body);
+        } catch (err) {
+          res.statusCode = 502;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ error: String(err) }));
+        }
+      });
     },
   };
 }

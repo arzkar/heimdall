@@ -917,3 +917,201 @@ a:hover {
 #app {
   padding-bottom: 30px;
 }
+
+/* ---- Pentagon Pizza Index ---- */
+.pizza-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(15, 15, 25, 0.8);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  letter-spacing: 0.5px;
+  margin-left: 12px;
+}
+.pizza-header-btn:hover {
+  border-color: var(--accent-dim);
+  background: rgba(15, 15, 25, 1);
+}
+.pizza-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+.pizza-defcon-badge {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #000;
+  background: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.pizza-index-label {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+/* Overlay */
+.pizza-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Popup */
+.pizza-popup {
+  position: fixed;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 420px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(8, 9, 14, 0.96);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 1px rgba(11, 235, 122, 0.15);
+  backdrop-filter: blur(20px);
+  font-family: var(--font-mono);
+}
+.pizza-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+.pizza-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  border-radius: 4px;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.pizza-close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+.pizza-popup-content {
+  padding: 12px 16px;
+}
+.pizza-defcon-subtitle {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 8px 0 14px;
+}
+.pizza-loading {
+  text-align: center;
+  color: var(--accent-dim);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 24px 0;
+  animation: pulse 1.5s infinite;
+}
+
+/* Store list */
+.pizza-store-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.pizza-store-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.pizza-store-row:last-child {
+  border-bottom: none;
+}
+.pizza-store-name {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* Status badges */
+.pizza-status-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.badge-spike {
+  background: var(--threat-critical);
+  color: #fff;
+}
+.badge-quiet {
+  background: var(--status-active);
+  color: #000;
+}
+.badge-closed {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-dim);
+}
+
+/* Footer */
+.pizza-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 9px;
+  color: var(--text-faint);
+  letter-spacing: 0.5px;
+}
+.pizza-source-link {
+  color: var(--accent-dim) !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.pizza-source-link:hover {
+  color: var(--accent) !important;
+  text-decoration: underline !important;
+}
+.pizza-updated {
+  color: var(--text-faint);
+}
+
+/* Scrollbar for popup */
+.pizza-popup::-webkit-scrollbar {
+  width: 4px;
+}
+.pizza-popup::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
