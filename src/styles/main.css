@@ -342,9 +342,9 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(11, 235, 122, 0.05) 50%,
-    rgba(11, 235, 122, 0.2) 95%,
-    var(--accent) 100%
+    rgba(11, 235, 122, 0.02) 50%,
+    rgba(11, 235, 122, 0.08) 95%,
+    var(--accent-dim) 100%
   );
   animation: radar-scan-down 12s linear infinite;
   z-index: 2;
@@ -846,7 +846,7 @@ body {
   align-items: center;
   width: max-content;
   white-space: nowrap;
-  animation: ticker-scroll 120s linear infinite;
+  animation: ticker-scroll 240s linear infinite;
   will-change: transform;
 }
 
